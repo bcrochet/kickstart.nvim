@@ -156,6 +156,9 @@ return {
           -- This may be unwanted, since they displace some of your code
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
+
+            -- Enable hints by default
+            vim.lsp.inlay_hint.enable(true)
           end
         end,
       })
@@ -189,7 +192,7 @@ return {
       -- https://github.com/Saghen/blink.cmp/blob/102db2f5996a46818661845cf283484870b60450/plugin/blink-cmp.lua
       -- It has been left here as a comment for educational purposes (as the predecessor completion plugin required this explicit step).
       --
-      -- local capabilities = require("blink.cmp").get_lsp_capabilities()
+      -- local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       -- Language servers can broadly be installed in the following ways:
       --  1) via the mason package manager; or
@@ -214,10 +217,37 @@ return {
         --
         --  Feel free to add/remove any LSPs here that you want to install via Mason. They will automatically be installed and setup.
         mason = {
-          -- clangd = {},
-          -- gopls = {},
-          -- pyright = {},
-          -- rust_analyzer = {},
+          clangd = {},
+          gopls = {
+            settings = {
+              gopls = {
+                experimentalPostfixCompletions = true,
+                staticcheck = true,
+                analyses = {
+                  shadow = true,
+                  unusedwrite = true,
+                  unusedvariable = true,
+                },
+                hints = {
+                  assignVariableTypes = true,
+                  compositeLiteralFields = true,
+                  compositeLiteralTypes = true,
+                  constantValues = true,
+                  functionTypeParameters = true,
+                  parameterNames = true,
+                  rangeVariableTypes = true,
+                },
+                semanticTokens = true,
+                codelenses = {
+                  gc_details = true,
+                  upgrade_dependency = true,
+                  tidy = true,
+                },
+              },
+            },
+          },
+          pyright = {},
+          rust_analyzer = {},
           -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
           --
           -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -264,6 +294,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers.mason or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'black', -- Used to format Python code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
