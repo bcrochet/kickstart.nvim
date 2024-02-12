@@ -1,5 +1,5 @@
 vim.wo.relativenumber = true
-vim.o.colorcolumn = "80"
+vim.o.colorcolumn = '80'
 
 --Set completeopt to have a better completion experience
 -- :help completeopt
@@ -16,7 +16,7 @@ vim.api.nvim_set_option('updatetime', 300)
 -- Show autodiagnostic popup on cursor hover_range
 -- Goto previous / next diagnostic warning / error
 -- Show inlay_hints more frequently
-vim.cmd([[
+vim.cmd [[
 set signcolumn=yes
 autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-]])
+]]
