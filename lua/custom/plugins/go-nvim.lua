@@ -7,7 +7,12 @@ return {
       'nvim-treesitter/nvim-treesitter',
     },
     config = function()
-      require('go').setup()
+      require('go').setup {
+        verbose = true,
+        lsp_cfg = false,
+        log_path = vim.fn.expand '$HOME' .. '/.cache/nvim/gonvim.log',
+        dap_debug = true,
+      }
     end,
     event = { 'CmdlineEnter' },
     ft = { 'go', 'gomod' },
