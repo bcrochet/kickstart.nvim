@@ -210,7 +210,34 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        gopls = {},
+        gopls = {
+          settings = {
+            gopls = {
+              experimentalPostfixCompletions = true,
+              staticcheck = true,
+              analyses = {
+                shadow = true,
+                unusedwrite = true,
+                unusedvariable = true,
+              },
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+              },
+              semanticTokens = true,
+              codelenses = {
+                gc_details = true,
+                upgrade_dependency = true,
+                tidy = true,
+              },
+            },
+          },
+        },
         golangci_lint_ls = {},
         pyright = {},
         rust_analyzer = {},
@@ -248,6 +275,7 @@ return {
             },
           },
         },
+        dockerls = {},
       }
 
       -- Ensure the servers and tools above are installed

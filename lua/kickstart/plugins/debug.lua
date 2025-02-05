@@ -5,6 +5,16 @@
 -- Primarily focused on configuring the debugger for Go, but can
 -- be extended to other languages as well. That's why it's called
 -- kickstart.nvim and not kitchen-sink.nvim ;)
+-- Function to find main.go file in the project incase its not in root
+
+local function find_main_go()
+  local root = vim.fn.getcwd()
+  local main_go = vim.fn.globpath(root, '**/main.go', 0, 1)
+  if #main_go > 0 then
+    return vim.fn.fnamemodify(main_go[1], ':h')
+  end
+  return root
+end
 
 return {
   -- NOTE: Yes, you can install new plugins here!
@@ -146,5 +156,30 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    table.insert(dap.configurations.go, {
+      type = 'delve',
+      name = 'Debug (go.mod)',
+      request = 'launch',
+      program = function()
+        return find_main_go()
+      end,
+      args = require('dap-go').get_arguments,
+    })
+    table.insert(dap.configurations.go, {
+      type = 'delve',
+      name = 'Debug (check container)',
+      request = 'launch',
+      program = function()
+        return find_main_go()
+      end,
+      args = { 'check', 'container', 'quay.io/acornett/failes-modifiedfiles-setuid:1.0.0' },
+      substitutePath = {
+        {
+          from = '/var/home/bcrochet',
+          to = '/home/bcrochet',
+        },
+      },
+    })
   end,
 }
