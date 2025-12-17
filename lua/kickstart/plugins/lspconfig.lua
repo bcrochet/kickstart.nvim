@@ -295,6 +295,9 @@ return {
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'black', -- Used to format Python code
+        'isort',
+        'gofumpt', -- Used to format Go code
+        'golangci-lint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
