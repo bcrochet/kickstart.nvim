@@ -64,7 +64,7 @@ return {
       },
       opts = {
         -- Set debug logging
-        log_level = 'DEBUG',
+        -- log_level = 'DEBUG',
       },
       extensions = {
         mcphub = {
@@ -142,12 +142,10 @@ return {
       },
       {
         'saghen/blink.cmp',
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
         opts = {
           sources = {
             per_filetype = { codecompanion = { 'codecompanion' } },
-            default = { 'codecompanion' },
+            --            default = { 'codecompanion' },
             providers = {
               codecompanion = {
                 name = 'CodeCompanion',
