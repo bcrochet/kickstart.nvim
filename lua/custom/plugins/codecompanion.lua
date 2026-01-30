@@ -37,11 +37,22 @@ return {
               },
             })
           end,
+          claude_code = function()
+            return require('codecompanion.adapters').extend('claude_code', {
+              defaults = {
+                auth_method = 'vertex-ai',
+              },
+              env = {
+                GEMINI_API_KEY = 'cmd:bw get password 20af807c-45d4-4a61-b07c-b314013ce21b',
+              },
+            })
+          end,
         },
       },
-      strategies = {
+      interactions = {
         chat = {
-          adapter = { name = 'ollama', model = 'granite4:small-h' },
+          -- adapter = { name = 'ollama', model = 'granite4:small-h' },
+          adapter = { name = 'claude_code' },
           tools = {
             ['mcp'] = { -- Name this tool whatever you like
               -- Callback provides the necessary functions to CodeCompanion
@@ -57,9 +68,11 @@ return {
         },
         inline = {
           adapter = { name = 'ollama', model = 'granite4:small-h' },
+          -- adapter = { name = 'claude_code' },
         },
         cmd = {
           adapter = { name = 'ollama', model = 'granite4:small-h' },
+          -- adapter = { name = 'claude_code' },
         },
       },
       opts = {
@@ -75,6 +88,11 @@ return {
             make_slash_commands = true,
             show_result_in_chat = true,
           },
+        },
+      },
+      display = {
+        action_palette = {
+          provider = 'snacks',
         },
       },
     },
