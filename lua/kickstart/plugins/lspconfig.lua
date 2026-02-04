@@ -298,8 +298,9 @@ return {
         'stylua', -- Used to format Lua code
         'black', -- Used to format Python code
         'isort',
-        -- 'gofumpt', -- Used to format Go code
-        -- 'golangci-lint',
+        'gofumpt', -- Used to format Go code
+        'golangci-lint',
+        'goimports-reviser',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
